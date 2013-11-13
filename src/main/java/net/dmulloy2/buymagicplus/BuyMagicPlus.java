@@ -64,10 +64,10 @@ public class BuyMagicPlus extends JavaPlugin
 		resourceHandler = new ResourceHandler(this, getClassLoader());
 
 		/** Register Handlers **/
-		permissionHandler = new PermissionHandler();
+		logHandler = new LogHandler(this);
 		commandHandler = new CommandHandler(this);
 		packageHandler = new PackageHandler(this);
-		logHandler = new LogHandler(this);
+		permissionHandler = new PermissionHandler();
 
 		/** Configuration **/
 		saveDefaultConfig();
