@@ -1,0 +1,26 @@
+name: BuyMagicPlus
+main: net.dmulloy2.buymagicplus.BuyMagicPlus
+version: "${project.version}"
+author: dmulloy2
+description: Allows the customization of buyable packages with enchanted items, for use with BuyCraft
+softdepend: [BuyCraft]
+commands:
+  bmp:
+    description: BuyMagicPlus base command
+    usage: /<command> <args>
+    aliases: [buymagicplus, buymagic, bm]
+permissions:
+  bmp.cmd.give:
+    description: Allows the giving of packages
+    default: false
+  bmp.cmd.package.list:
+    description: Allows the listing of available packages
+    default: true
+  bmp.cmd.package.info:
+    description: Allows the viewing of package info
+    default: true
+  bmp.cmd.reload:
+    description: Allows the reloading of BuyMagicPlus
+    default: false
+  bmp.cmd.version:
+    description: Allows the viewing of BuyMagicPlus's version

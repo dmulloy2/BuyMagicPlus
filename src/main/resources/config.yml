@@ -1,0 +1,10 @@
+# BuyMagicPlus Configuration
+# By dmulloy2
+
+# List of available packages
+# Format: 
+#  [packageName]:
+#    - "<type>:<dat>, <amount>, <enchantment>:<level>..."
+packages:
+  "stone":
+    - "1:0, 5"
