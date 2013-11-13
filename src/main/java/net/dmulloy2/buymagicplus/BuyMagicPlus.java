@@ -32,8 +32,10 @@ import net.dmulloy2.buymagicplus.handlers.LogHandler;
 import net.dmulloy2.buymagicplus.handlers.PackageHandler;
 import net.dmulloy2.buymagicplus.handlers.PermissionHandler;
 import net.dmulloy2.buymagicplus.handlers.ResourceHandler;
+import net.dmulloy2.buymagicplus.listeners.PlayerListener;
 import net.dmulloy2.buymagicplus.util.FormatUtil;
 
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -67,9 +69,11 @@ public class BuyMagicPlus extends JavaPlugin
 		packageHandler = new PackageHandler(this);
 		logHandler = new LogHandler(this);
 
+		/** Configuration **/
 		saveDefaultConfig();
 		reloadConfig();
 
+		/** Register Commands **/
 		commandHandler.setCommandPrefix("bmp");
 		commandHandler.registerPrefixedCommand(new CmdGive(this));
 		commandHandler.registerPrefixedCommand(new CmdHelp(this));
@@ -77,6 +81,10 @@ public class BuyMagicPlus extends JavaPlugin
 		commandHandler.registerPrefixedCommand(new CmdPackageList(this));
 		commandHandler.registerPrefixedCommand(new CmdReload(this));
 		commandHandler.registerPrefixedCommand(new CmdVersion(this));
+
+		/** Register Events **/
+		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(new PlayerListener(this), this);
 
 		logHandler.log(getMessage("log_enabled"), getDescription().getFullName(), System.currentTimeMillis() - start);
 	}
