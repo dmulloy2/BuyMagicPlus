@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import lombok.Getter;
+import net.dmulloy2.buymagicplus.util.FormatUtil;
 import net.dmulloy2.buymagicplus.util.InventoryUtil;
 
 import org.bukkit.entity.Player;
@@ -37,5 +38,7 @@ public class Package
 				player.getWorld().dropItemNaturally(player.getLocation(), leftoverItem.getValue());
 			}
 		}
+
+		player.sendMessage(FormatUtil.format("&6[&4&lBMP&6] &aThanks for using BuyMagicPlus!"));
 	}
 }
