@@ -1,5 +1,6 @@
 package net.dmulloy2.buymagicplus.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -184,5 +185,16 @@ public class Util
 		}
 
 		return ret.toString();
+	}
+
+	@SafeVarargs
+	public static <T> List<T> toList(T... objects)
+	{
+		List<T> ret = new ArrayList<T>();
+
+		for (T t : objects)
+			ret.add(t);
+
+		return ret;
 	}
 }

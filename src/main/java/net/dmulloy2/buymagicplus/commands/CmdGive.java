@@ -54,7 +54,7 @@ public class CmdGive extends BuyMagicPlusCommand
 			return;
 		}
 
-		// Perform the package
-		pack.perform((Player) offlineTarget);
+		// Process
+		plugin.getPackageHandler().process((Player) offlineTarget, pack, true);
 	}
 }

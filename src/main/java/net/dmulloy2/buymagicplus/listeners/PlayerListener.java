@@ -1,5 +1,7 @@
 package net.dmulloy2.buymagicplus.listeners;
 
+import java.util.List;
+
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Package;
 
@@ -35,8 +37,9 @@ public class PlayerListener implements Listener
 				@Override
 				public void run()
 				{
-					Package pack = plugin.getPackageHandler().getCachedPackage(player.getName());
-					pack.perform(player);
+					List<Package> packages = plugin.getPackageHandler().getCachedPackages(player.getName());
+					plugin.getPackageHandler().process(player, packages);
+					plugin.getPackageHandler().removeFromCache(player.getName());
 				}
 			}.runTaskLater(plugin, 60L);
 		}

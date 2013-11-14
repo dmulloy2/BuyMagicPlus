@@ -142,7 +142,7 @@ public class ItemUtil
 	public static String getEnchantments(ItemStack stack)
 	{
 		StringBuilder ret = new StringBuilder();
-		if (!stack.getEnchantments().isEmpty())
+		if (! stack.getEnchantments().isEmpty())
 		{
 			ret.append("(");
 			for (Entry<Enchantment, Integer> enchantment : stack.getEnchantments().entrySet())

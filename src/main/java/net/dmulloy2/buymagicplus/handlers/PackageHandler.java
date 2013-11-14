@@ -11,10 +11,12 @@ import java.util.logging.Level;
 import lombok.Getter;
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Package;
+import net.dmulloy2.buymagicplus.util.FormatUtil;
 import net.dmulloy2.buymagicplus.util.ItemUtil;
 import net.dmulloy2.buymagicplus.util.Util;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -23,15 +25,18 @@ import org.bukkit.inventory.ItemStack;
 
 public class PackageHandler
 {
-	private @Getter HashMap<String, String> cached;
-	private @Getter HashMap<String, Package> packages;
-	
+	private @Getter
+	HashMap<String, List<String>> cached;
+	private @Getter
+	HashMap<String, Package> packages;
+
 	private final BuyMagicPlus plugin;
+
 	public PackageHandler(BuyMagicPlus plugin)
 	{
 		this.plugin = plugin;
 
-		this.cached = new HashMap<String, String>();
+		this.cached = new HashMap<String, List<String>>();
 		this.packages = new HashMap<String, Package>();
 
 		load();
@@ -69,7 +74,7 @@ public class PackageHandler
 					items.add(item);
 			}
 
-			Package pack = new Package(items);
+			Package pack = new Package(name, items);
 			packages.put(name, pack);
 		}
 
@@ -89,7 +94,8 @@ public class PackageHandler
 	/**
 	 * Returns the package associated with the given key
 	 * 
-	 * @param key - Package name
+	 * @param key
+	 *        - Package name
 	 */
 	public final Package getPackage(String key)
 	{
@@ -104,7 +110,8 @@ public class PackageHandler
 	/**
 	 * Returns whether or not a package with this name exists
 	 * 
-	 * @param key - Package name to check
+	 * @param key
+	 *        - Package name to check
 	 */
 	public final boolean isValidPackage(String key)
 	{
@@ -127,7 +134,7 @@ public class PackageHandler
 		try
 		{
 			File file = new File(plugin.getDataFolder(), "cache.yml");
-			if (! file.exists())
+			if (!file.exists())
 			{
 				file.createNewFile();
 			}
@@ -136,15 +143,22 @@ public class PackageHandler
 			for (Entry<String, Object> value : fc.getValues(true).entrySet())
 			{
 				String playerName = value.getKey().toLowerCase();
+				List<String> packages = new ArrayList<String>();
 
-				String packName = (String) value.getValue();
-				if (! isValidPackage(packName))
+				@SuppressWarnings("unchecked")
+				List<String> values = (List<String>) value.getValue();
+				for (String val : values)
 				{
-					plugin.getLogHandler().log(Level.WARNING, plugin.getMessage("cache_missing_package"), playerName, packName);
-					continue;
+					if (!isValidPackage(val))
+					{
+						plugin.getLogHandler().log(Level.WARNING, plugin.getMessage("cache_missing_package"), playerName, val);
+						continue;
+					}
+
+					packages.add(val);
 				}
 
-				cached.put(playerName, packName);
+				cached.put(playerName, packages);
 			}
 		}
 		catch (Exception e)
@@ -166,7 +180,7 @@ public class PackageHandler
 			file.createNewFile();
 
 			YamlConfiguration fc = YamlConfiguration.loadConfiguration(file);
-			for (Entry<String, String> entry : cached.entrySet())
+			for (Entry<String, List<String>> entry : cached.entrySet())
 			{
 				fc.set(entry.getKey(), entry.getValue());
 			}
@@ -181,21 +195,71 @@ public class PackageHandler
 
 	public final void cache(String key, String pack)
 	{
-		cached.put(key, pack);
-	}
-
-	public final Package getCachedPackage(String key)
-	{
 		if (cached.containsKey(key.toLowerCase()))
 		{
-			return getPackage(cached.get(key));
+			cached.get(key.toLowerCase()).add(pack);
+		}
+		else
+		{
+			cached.put(key.toLowerCase(), Util.toList(pack));
+		}
+	}
+
+	public final List<Package> getCachedPackages(String key)
+	{
+		List<Package> ret = new ArrayList<Package>();
+
+		if (cached.containsKey(key.toLowerCase()))
+		{
+			for (String s : cached.get(key.toLowerCase()))
+			{
+				Package pack = getPackage(s);
+				if (pack != null)
+					ret.add(pack);
+			}
 		}
 
-		return null;
+		return ret;
 	}
 
 	public final boolean hasCachedPackage(String key)
 	{
 		return cached.containsKey(key.toLowerCase());
+	}
+
+	public final void removeFromCache(String key)
+	{
+		if (hasCachedPackage(key))
+		{
+			cached.get(key).clear();
+			cached.remove(key.toLowerCase());
+		}
+	}
+
+	// ---- Processing ---- //
+
+	public final void process(Player player, List<Package> packages)
+	{
+		for (Package pack : packages)
+		{
+			process(player, pack, false);
+		}
+
+		player.sendMessage(FormatUtil.format("&6[&4&lBMP&6] &aThanks for using BuyMagicPlus!"));
+	}
+
+	public final void process(Player player, Package pack, boolean tell)
+	{
+		plugin.getLogHandler().log("Processing package \"{0}\" for {1}", pack.getName(), player.getName());
+
+		pack.perform(player);
+
+		if (hasCachedPackage(player.getName()))
+		{
+			removeFromCache(player.getName());
+		}
+
+		if (tell)
+			player.sendMessage(FormatUtil.format("&6[&4&lBMP&6] &aThanks for using BuyMagicPlus!"));
 	}
 }

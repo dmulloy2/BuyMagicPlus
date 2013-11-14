@@ -120,6 +120,4 @@ public class BuyMagicPlus extends JavaPlugin
 			return null;
 		}
 	}
-
-	
 }
