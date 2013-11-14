@@ -6,6 +6,7 @@ import net.dmulloy2.buymagicplus.types.Permission;
 import net.dmulloy2.buymagicplus.util.FormatUtil;
 import net.dmulloy2.buymagicplus.util.ItemUtil;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -37,7 +38,7 @@ public class CmdPackageInfo extends BuyMagicPlusCommand
 			return;
 		}
 
-		sendMessage(getMessage("package_info_header"));
+		sendMessage(getMessage("package_info_header"), WordUtils.capitalize(args[0]));
 
 		for (ItemStack stack : pack.getItems())
 		{

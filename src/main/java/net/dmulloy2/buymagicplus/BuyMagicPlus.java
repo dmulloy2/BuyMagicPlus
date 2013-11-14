@@ -59,6 +59,10 @@ public class BuyMagicPlus extends JavaPlugin
 	{
 		long start = System.currentTimeMillis();
 
+		/** Configuration **/
+		saveDefaultConfig();
+		reloadConfig();
+
 		/** Resource Handler / Messages **/
 		saveResource("messages.properties", true);
 		resourceHandler = new ResourceHandler(this, getClassLoader());
@@ -68,10 +72,6 @@ public class BuyMagicPlus extends JavaPlugin
 		commandHandler = new CommandHandler(this);
 		packageHandler = new PackageHandler(this);
 		permissionHandler = new PermissionHandler();
-
-		/** Configuration **/
-		saveDefaultConfig();
-		reloadConfig();
 
 		/** Register Commands **/
 		commandHandler.setCommandPrefix("bmp");

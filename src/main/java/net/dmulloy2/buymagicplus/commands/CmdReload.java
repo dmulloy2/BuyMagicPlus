@@ -28,6 +28,7 @@ public class CmdReload extends BuyMagicPlusCommand
 		sendpMessage(getMessage("reload_start"));
 		
 		plugin.reloadConfig();
+		plugin.getPackageHandler().reload();
 		
 		sendpMessage(getMessage("reload_finish"), System.currentTimeMillis() - start);
 	}

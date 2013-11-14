@@ -55,6 +55,8 @@ public class PackageHandler
 		{
 			String name = entry.getKey();
 
+			plugin.getLogHandler().debug("Attempting to load package \"{0}\"", name);
+
 			@SuppressWarnings("unchecked")
 			List<String> values = (List<String>) entry.getValue();
 

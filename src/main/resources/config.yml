@@ -1,6 +1,9 @@
 # BuyMagicPlus Configuration
 # By dmulloy2
 
+# Debug
+debug: false
+
 # List of available packages
 # Format: 
 #  [packageName]:

@@ -107,7 +107,7 @@ public abstract class BuyMagicPlusCommand implements CommandExecutor
 	//Send non prefixed message
 	protected final void sendMessage(String msg, Object... args) 
 	{
-		sender.sendMessage(FormatUtil.format(msg, args));
+		sender.sendMessage(FormatUtil.format("&e" + msg, args));
 	}
 	
 	//Send prefixed message
@@ -119,7 +119,7 @@ public abstract class BuyMagicPlusCommand implements CommandExecutor
 	//Send message to the whole server
 	protected final void sendMessageAll(String msg, Object... args) 
 	{
-		plugin.getServer().broadcastMessage(plugin.getPrefix() + FormatUtil.format(msg, args));
+		plugin.getServer().broadcastMessage(plugin.getPrefix() + FormatUtil.format("&e" + msg, args));
 	}
 	
 	//Send prefixed message
