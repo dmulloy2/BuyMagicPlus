@@ -25,13 +25,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class PackageHandler
 {
-	private @Getter
-	HashMap<String, List<String>> cached;
-	private @Getter
-	HashMap<String, Package> packages;
+	private @Getter HashMap<String, List<String>> cached;
+	private @Getter HashMap<String, Package> packages;
 
 	private final BuyMagicPlus plugin;
-
 	public PackageHandler(BuyMagicPlus plugin)
 	{
 		this.plugin = plugin;
@@ -58,27 +55,34 @@ public class PackageHandler
 
 		for (Entry<String, Object> entry : map.entrySet())
 		{
-			String name = entry.getKey();
-
-			plugin.getLogHandler().debug("Attempting to load package \"{0}\"", name);
-
-			@SuppressWarnings("unchecked")
-			List<String> values = (List<String>) entry.getValue();
-
-			List<ItemStack> items = new ArrayList<ItemStack>();
-
-			for (String value : values)
+			try
 			{
-				ItemStack item = ItemUtil.readItem(value);
-				if (item != null)
-					items.add(item);
+				String name = entry.getKey();
+	
+				plugin.getLogHandler().debug("Attempting to load package \"{0}\"", name);
+	
+				@SuppressWarnings("unchecked")
+				List<String> values = (List<String>) entry.getValue();
+	
+				List<ItemStack> items = new ArrayList<ItemStack>();
+	
+				for (String value : values)
+				{
+					ItemStack item = ItemUtil.readItem(value);
+					if (item != null)
+						items.add(item);
+				}
+	
+				Package pack = new Package(name, items);
+				packages.put(name, pack);
 			}
-
-			Package pack = new Package(name, items);
-			packages.put(name, pack);
+			catch (Exception e)
+			{
+				plugin.getLogHandler().log(Level.SEVERE, Util.getUsefulStack(e, "loading package " + entry.getKey()));
+			}
 		}
 
-		plugin.getLogHandler().log(plugin.getMessage("packages_loaded"), System.currentTimeMillis() - start);
+		plugin.getLogHandler().log(plugin.getMessage("packages_loaded"), packages.size(), System.currentTimeMillis() - start);
 	}
 
 	/**
@@ -245,12 +249,13 @@ public class PackageHandler
 			process(player, pack, false);
 		}
 
-		player.sendMessage(FormatUtil.format("&6[&4&lBMP&6] &aThanks for using BuyMagicPlus!"));
+		player.sendMessage(plugin.getPrefix() + 
+				FormatUtil.format(plugin.getMessage("thanks")));
 	}
 
 	public final void process(Player player, Package pack, boolean tell)
 	{
-		plugin.getLogHandler().log("Processing package \"{0}\" for {1}", pack.getName(), player.getName());
+		plugin.getLogHandler().log(plugin.getMessage("log_package_process"), pack.getName(), player.getName());
 
 		pack.perform(player);
 
@@ -260,6 +265,7 @@ public class PackageHandler
 		}
 
 		if (tell)
-			player.sendMessage(FormatUtil.format("&6[&4&lBMP&6] &aThanks for using BuyMagicPlus!"));
+			player.sendMessage(plugin.getPrefix() +
+					FormatUtil.format(plugin.getMessage("thanks")));
 	}
 }
