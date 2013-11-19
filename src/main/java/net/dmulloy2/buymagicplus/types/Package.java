@@ -27,18 +27,30 @@ public class Package
 		this.items = items;
 	}
 
-	public final void perform(Player player)
+	public void perform(Player player) throws ProcessingException
 	{
-		for (ItemStack item : items)
+		if (items.isEmpty())
 		{
-			// Attempt to add the item
-			Map<Integer, ItemStack> leftover = InventoryUtil.addItems(player.getInventory(), item);
+			throw new ProcessingException(new Exception("Empty Package"), this);
+		}
 
-			// Drop items that don't fit
-			for (Entry<Integer, ItemStack> leftoverItem : leftover.entrySet())
+		try
+		{
+			for (ItemStack item : items)
 			{
-				player.getWorld().dropItemNaturally(player.getLocation(), leftoverItem.getValue());
+				// Attempt to add the item
+				Map<Integer, ItemStack> leftover = InventoryUtil.addItems(player.getInventory(), item);
+	
+				// Drop items that don't fit
+				for (Entry<Integer, ItemStack> leftoverItem : leftover.entrySet())
+				{
+					player.getWorld().dropItemNaturally(player.getLocation(), leftoverItem.getValue());
+				}
 			}
+		}
+		catch (Exception e)
+		{
+			throw new ProcessingException(e, this);
 		}
 	}
 }

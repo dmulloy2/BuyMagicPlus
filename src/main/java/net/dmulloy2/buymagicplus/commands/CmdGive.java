@@ -40,7 +40,7 @@ public class CmdGive extends BuyMagicPlusCommand
 		// Make sure a valid package was supplied
 		if (! plugin.getPackageHandler().isValidPackage(args[1]))
 		{
-			err(getMessage("invalid_package"), args[1]);
+			err(getMessage("package_not_found"), args[1]);
 			return;
 		}
 

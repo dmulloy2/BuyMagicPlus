@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import lombok.Getter;
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Package;
+import net.dmulloy2.buymagicplus.types.ProcessingException;
 import net.dmulloy2.buymagicplus.util.FormatUtil;
 import net.dmulloy2.buymagicplus.util.ItemUtil;
 import net.dmulloy2.buymagicplus.util.Util;
@@ -257,7 +258,18 @@ public class PackageHandler
 	{
 		plugin.getLogHandler().log(plugin.getMessage("log_package_process"), pack.getName(), player.getName());
 
-		pack.perform(player);
+		try
+		{
+			pack.perform(player);
+		}
+		catch (ProcessingException e)
+		{
+			if (tell)
+				player.sendMessage(plugin.getPrefix() + 
+						FormatUtil.format("&cCould not process package {0}: {1}", e.getPack(), e.getBase().getMessage()));
+			
+			plugin.getLogHandler().log(Level.SEVERE, Util.getUsefulStack(e, "processing package " + pack.getName()));
+		}
 
 		if (hasCachedPackage(player.getName()))
 		{

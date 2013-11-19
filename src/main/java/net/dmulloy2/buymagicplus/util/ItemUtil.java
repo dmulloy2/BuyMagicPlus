@@ -18,56 +18,65 @@ import org.bukkit.inventory.ItemStack;
 
 public class ItemUtil
 {
-	/**
-	 * Reads an ItemStack from configuration
-	 * 
-	 * @param string
-	 *            - String to read
-	 * @return ItemStack from given string
-	 */
 	public static ItemStack readItem(String string)
 	{
-		Material mat = null;
-
-		int amt = 0;
-		short dat = 0;
-
-		Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
-
-		string = string.replaceAll(" ", "");
-		if (string.contains(","))
+		try
 		{
-			String s = string.substring(0, string.indexOf(","));
-			if (s.contains(":"))
+			Material mat = null;
+	
+			int amt = 0;
+			short dat = 0;
+	
+			Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
+	
+			string = string.replaceAll(" ", "");
+			if (string.contains(","))
 			{
-				mat = MaterialUtil.getMaterial(s.substring(0, s.indexOf(":")));
-				
-				dat = Short.parseShort(s.substring(s.indexOf(":") + 1));
-			}
-			else
-			{
-				mat = MaterialUtil.getMaterial(s);
-			}
-
-			s = string.substring(string.indexOf(",") + 1);
-			if (s.contains(","))
-			{
-				amt = Integer.parseInt(s.substring(0, s.indexOf(",")));
-
-				s = s.substring(s.indexOf(",") + 1);
-
-				if (! s.isEmpty())
+				String s = string.substring(0, string.indexOf(","));
+				if (s.contains(":"))
 				{
-					if (s.contains(","))
+					mat = MaterialUtil.getMaterial(s.substring(0, s.indexOf(":")));
+	
+					dat = Short.parseShort(s.substring(s.indexOf(":") + 1));
+				}
+				else
+				{
+					mat = MaterialUtil.getMaterial(s);
+				}
+	
+				s = string.substring(string.indexOf(",") + 1);
+				if (s.contains(","))
+				{
+					amt = Integer.parseInt(s.substring(0, s.indexOf(",")));
+	
+					s = s.substring(s.indexOf(",") + 1);
+	
+					if (! s.isEmpty())
 					{
-						String[] split = s.split(",");
-						for (String ench : split)
+						if (s.contains(","))
 						{
-							if (ench.contains(":"))
+							String[] split = s.split(",");
+							for (String ench : split)
 							{
-								Enchantment enchant = EnchantmentType.toEnchantment(ench.substring(0, ench.indexOf(":")));
-								int level = Integer.parseInt(ench.substring(ench.indexOf(":") + 1));
-
+								if (ench.contains(":"))
+								{
+									Enchantment enchant = EnchantmentType.toEnchantment(ench.substring(0, ench.indexOf(":")));
+									int level = Integer.parseInt(ench.substring(ench.indexOf(":") + 1));
+	
+									if (enchant != null && level > 0)
+									{
+										enchantments.put(enchant, level);
+									}
+								}
+							}
+						}
+						else
+						{
+							if (s.contains(":"))
+							{
+								Enchantment enchant = EnchantmentType.toEnchantment(s.substring(0, s.indexOf(":")));
+								int level = Integer.parseInt(s.substring(s.indexOf(":") + 1));
+	
 								if (enchant != null && level > 0)
 								{
 									enchantments.put(enchant, level);
@@ -75,39 +84,32 @@ public class ItemUtil
 							}
 						}
 					}
-					else
-					{
-						if (s.contains(":"))
-						{
-							Enchantment enchant = EnchantmentType.toEnchantment(s.substring(0, s.indexOf(":")));
-							int level = Integer.parseInt(s.substring(s.indexOf(":") + 1));
-
-							if (enchant != null && level > 0)
-							{
-								enchantments.put(enchant, level);
-							}
-						}
-					}
+				}
+				else
+				{
+					amt = Integer.parseInt(s);
 				}
 			}
-			else
+	
+			ItemStack ret = null;
+			if (mat != null && amt > 0)
 			{
-				amt = Integer.parseInt(s);
+				ret = new ItemStack(mat, amt, dat);
 			}
+	
+			if (ret != null && !enchantments.isEmpty())
+			{
+				ret.addUnsafeEnchantments(enchantments);
+			}
+	
+			return ret;
 		}
-
-		ItemStack ret = null;
-		if (mat != null && amt > 0)
+		catch (Exception e)
 		{
-			ret = new ItemStack(mat, amt, dat);
+			// If the ItemStack could not be read, 
+			// don't stall the enabling of the plugin
+			return null;
 		}
-
-		if (ret != null && ! enchantments.isEmpty())
-		{
-			ret.addUnsafeEnchantments(enchantments);
-		}
-
-		return ret;
 	}
 	
 	/**
