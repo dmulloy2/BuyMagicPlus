@@ -12,6 +12,7 @@ import lombok.Getter;
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Package;
 import net.dmulloy2.buymagicplus.types.ProcessingException;
+import net.dmulloy2.buymagicplus.types.Reloadable;
 import net.dmulloy2.buymagicplus.util.FormatUtil;
 import net.dmulloy2.buymagicplus.util.ItemUtil;
 import net.dmulloy2.buymagicplus.util.Util;
@@ -24,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
  * @author dmulloy2
  */
 
-public class PackageHandler
+public class PackageHandler implements Reloadable
 {
 	private @Getter HashMap<String, List<String>> cached;
 	private @Getter HashMap<String, Package> packages;
@@ -37,8 +38,8 @@ public class PackageHandler
 		this.cached = new HashMap<String, List<String>>();
 		this.packages = new HashMap<String, Package>();
 
-		load();
-		loadCache();
+		this.load();
+		this.loadCache();
 	}
 
 	// ---- General Package Stuff ---- //
@@ -89,6 +90,7 @@ public class PackageHandler
 	/**
 	 * Reloads all packages
 	 */
+	@Override
 	public final void reload()
 	{
 		packages.clear();

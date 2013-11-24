@@ -33,6 +33,7 @@ import net.dmulloy2.buymagicplus.handlers.PackageHandler;
 import net.dmulloy2.buymagicplus.handlers.PermissionHandler;
 import net.dmulloy2.buymagicplus.handlers.ResourceHandler;
 import net.dmulloy2.buymagicplus.listeners.PlayerListener;
+import net.dmulloy2.buymagicplus.types.Reloadable;
 import net.dmulloy2.buymagicplus.util.FormatUtil;
 
 import org.bukkit.plugin.PluginManager;
@@ -42,7 +43,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author dmulloy2
  */
 
-public class BuyMagicPlus extends JavaPlugin
+public class BuyMagicPlus extends JavaPlugin implements Reloadable
 {
 	/** Handlers **/
 	private @Getter PermissionHandler permissionHandler;
@@ -119,5 +120,13 @@ public class BuyMagicPlus extends JavaPlugin
 			logHandler.log(Level.WARNING, getMessage("log_message_missing"),  string);
 			return null;
 		}
+	}
+
+	@Override
+	public void reload()
+	{
+		reloadConfig();
+
+		packageHandler.reload();
 	}
 }
