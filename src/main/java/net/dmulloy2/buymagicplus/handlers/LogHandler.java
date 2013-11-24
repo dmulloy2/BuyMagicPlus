@@ -24,14 +24,14 @@ public class LogHandler
 
 	public final void log(String msg, Object... objects)
 	{
-		plugin.getLogger().info(FormatUtil.format(msg, objects));
+		log(Level.INFO, msg, objects);
 	}
 
 	public final void debug(String msg, Object... objects)
 	{
 		if (plugin.getConfig().getBoolean("debug", false))
 		{
-			plugin.getLogger().info(FormatUtil.format("[Debug] " + msg, objects));
+			log("[Debug] " + msg, objects);
 		}
 	}
 }
