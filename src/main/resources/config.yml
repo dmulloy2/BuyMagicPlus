@@ -9,5 +9,34 @@ debug: false
 #  [packageName]:
 #    - "<type>:<dat>, <amount>, <enchantment>:<level>..."
 packages:
-  "stone":
-    - "1:0, 5"
+  "godsword":
+    - "276:0, 1, sharp:6, knockback:2, fireaspect:2, dura:5, looting:4"
+  "godarmor":
+    - "313:0, 1, prot:4, feather:4"
+    - "312:0, 1, prot:4, proj:4"
+    - "311:0, 1, prot:4, fireprot:4"
+    - "310:0, 1, blast:4, breathing:3, aqua:1"
+  "godpick":
+    - "278:0, 1, eff:10, dura:10, fortune:10"
+  "fastpick":
+    - "278:0, 1, eff:6"
+  "knocksword":
+    - "276:0, 1, knockback:2"
+  "sharpsword":
+    - "276:0, 1, sharp:5"
+  "toughpick":
+    - "278:0, 1, dura:5"
+  "fastshovel":
+    - "277:0, 1, eff:6"
+  "fireaxe":
+    - "279:0, 1, fireaspect:2"
+  "silkpick":
+    - "278:0, 1, silk:2"
+  "godbow":
+    - "261:0, 1, power:6, fire:2, arrowkb:3, inf:1, dura:6"
+  "infbow":
+    - "261:0, 1, inf:1"
+  "rocket":
+    - "293:0, 1, blast:15"
+  "adminbat":
+    - "268:0, 1, knockback:25"
