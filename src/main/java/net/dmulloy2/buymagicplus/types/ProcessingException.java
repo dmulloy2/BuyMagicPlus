@@ -13,13 +13,16 @@ public class ProcessingException extends Exception
 {
 	private static final long serialVersionUID = 6764709186279138551L;
 
-	private final @Getter Exception base;
 	private final @Getter Package pack;
 
-	public ProcessingException(Exception base, Package pack)
+	public ProcessingException(String s, Package pack)
 	{
-		super(base);
-		this.base = base;
+		super(s);
 		this.pack = pack;
+	}
+
+	public ProcessingException(Exception e, Package pack)
+	{
+		this(e.getMessage(), pack);
 	}
 }

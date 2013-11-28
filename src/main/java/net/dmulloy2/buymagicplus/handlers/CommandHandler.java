@@ -20,7 +20,6 @@ import org.bukkit.command.PluginCommand;
 public class CommandHandler implements CommandExecutor 
 {
 	private final BuyMagicPlus plugin;
-	// Only need the name of command prefix - all other aliases listed in plugin.yml will be usable
 	private String commandPrefix;
 	private List<BuyMagicPlusCommand> registeredPrefixedCommands;
 	private List<BuyMagicPlusCommand> registeredCommands;
@@ -28,7 +27,7 @@ public class CommandHandler implements CommandExecutor
 	public CommandHandler(BuyMagicPlus plugin)
 	{
 		this.plugin = plugin;
-		registeredCommands = new ArrayList<BuyMagicPlusCommand>();
+		this.registeredCommands = new ArrayList<BuyMagicPlusCommand>();
 	}
 	
 	public void registerCommand(BuyMagicPlusCommand command) 
@@ -69,7 +68,8 @@ public class CommandHandler implements CommandExecutor
 	public void setCommandPrefix(String commandPrefix) 
 	{
 		this.commandPrefix = commandPrefix;
-		registeredPrefixedCommands = new ArrayList<BuyMagicPlusCommand>();
+		this.registeredPrefixedCommands = new ArrayList<BuyMagicPlusCommand>();
+
 		plugin.getCommand(commandPrefix).setExecutor(this);
 	}
 

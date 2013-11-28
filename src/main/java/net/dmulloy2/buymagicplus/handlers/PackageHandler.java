@@ -268,7 +268,7 @@ public class PackageHandler implements Reloadable
 		{
 			if (tell)
 				player.sendMessage(plugin.getPrefix() + 
-						FormatUtil.format("&cCould not process package {0}: {1}", e.getPack(), e.getBase().getMessage()));
+						FormatUtil.format("&cCould not process package {0}: {1}", pack.getName(), e.getMessage()));
 			
 			plugin.getLogHandler().log(Level.SEVERE, Util.getUsefulStack(e, "processing package " + pack.getName()));
 		}

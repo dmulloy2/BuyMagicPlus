@@ -29,23 +29,20 @@ public class Package
 
 	public void perform(Player player) throws ProcessingException
 	{
-		if (items.isEmpty())
-		{
-			throw new ProcessingException(new Exception("Empty Package"), this);
-		}
-
 		try
 		{
-			for (ItemStack item : items)
+			if (items.isEmpty())
 			{
-				// Attempt to add the item
-				Map<Integer, ItemStack> leftover = InventoryUtil.addItems(player.getInventory(), item);
+				throw new Exception("Empty Package");
+			}
+		
+			// Attempt to add the items	
+			Map<Integer, ItemStack> leftover = InventoryUtil.addItems(player.getInventory(), items.toArray(new ItemStack[0]));
 	
-				// Drop items that don't fit
-				for (Entry<Integer, ItemStack> leftoverItem : leftover.entrySet())
-				{
-					player.getWorld().dropItemNaturally(player.getLocation(), leftoverItem.getValue());
-				}
+			// Drop items that don't fit
+			for (Entry<Integer, ItemStack> leftoverItem : leftover.entrySet())
+			{
+				player.getWorld().dropItemNaturally(player.getLocation(), leftoverItem.getValue());
 			}
 		}
 		catch (Exception e)
