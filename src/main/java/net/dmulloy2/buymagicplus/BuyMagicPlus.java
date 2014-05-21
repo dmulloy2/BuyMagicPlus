@@ -23,8 +23,8 @@ import java.util.logging.Level;
 import lombok.Getter;
 import net.dmulloy2.buymagicplus.commands.CmdGive;
 import net.dmulloy2.buymagicplus.commands.CmdHelp;
-import net.dmulloy2.buymagicplus.commands.CmdPackageInfo;
-import net.dmulloy2.buymagicplus.commands.CmdPackageList;
+import net.dmulloy2.buymagicplus.commands.CmdInfo;
+import net.dmulloy2.buymagicplus.commands.CmdList;
 import net.dmulloy2.buymagicplus.commands.CmdReload;
 import net.dmulloy2.buymagicplus.commands.CmdVersion;
 import net.dmulloy2.buymagicplus.handlers.CommandHandler;
@@ -78,8 +78,8 @@ public class BuyMagicPlus extends JavaPlugin implements Reloadable
 		commandHandler.setCommandPrefix("bmp");
 		commandHandler.registerPrefixedCommand(new CmdGive(this));
 		commandHandler.registerPrefixedCommand(new CmdHelp(this));
-		commandHandler.registerPrefixedCommand(new CmdPackageInfo(this));
-		commandHandler.registerPrefixedCommand(new CmdPackageList(this));
+		commandHandler.registerPrefixedCommand(new CmdInfo(this));
+		commandHandler.registerPrefixedCommand(new CmdList(this));
 		commandHandler.registerPrefixedCommand(new CmdReload(this));
 		commandHandler.registerPrefixedCommand(new CmdVersion(this));
 

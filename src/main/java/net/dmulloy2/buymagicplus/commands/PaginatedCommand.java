@@ -11,12 +11,12 @@ import net.dmulloy2.buymagicplus.BuyMagicPlus;
 
 public abstract class PaginatedCommand extends BuyMagicPlusCommand
 {
-	protected int linesPerPage = 10;
-	protected int pageArgIndex = 0;
+	protected int linesPerPage, pageArgIndex;
 
 	public PaginatedCommand(BuyMagicPlus plugin)
 	{
 		super(plugin);
+		this.linesPerPage = 10;
 	}
 	
 	@Override

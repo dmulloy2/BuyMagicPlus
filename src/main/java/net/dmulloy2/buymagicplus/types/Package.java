@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.dmulloy2.buymagicplus.util.InventoryUtil;
 
@@ -16,18 +17,14 @@ import org.bukkit.inventory.ItemStack;
  * @author dmulloy2
  */
 
+@Getter
+@AllArgsConstructor
 public class Package
 {
-	private @Getter String name;
-	private @Getter List<ItemStack> items;
+	private String name;
+	private List<ItemStack> items;
 
-	public Package(String name, List<ItemStack> items)
-	{
-		this.name = name;
-		this.items = items;
-	}
-
-	public void perform(Player player) throws ProcessingException
+	public final void perform(Player player) throws ProcessingException
 	{
 		try
 		{
@@ -37,7 +34,7 @@ public class Package
 			}
 		
 			// Attempt to add the items	
-			Map<Integer, ItemStack> leftover = InventoryUtil.addItems(player.getInventory(), items.toArray(new ItemStack[0]));
+			Map<Integer, ItemStack> leftover = InventoryUtil.giveItems(player, items.toArray(new ItemStack[0]));
 	
 			// Drop items that don't fit
 			for (Entry<Integer, ItemStack> leftoverItem : leftover.entrySet())
@@ -45,9 +42,9 @@ public class Package
 				player.getWorld().dropItemNaturally(player.getLocation(), leftoverItem.getValue());
 			}
 		}
-		catch (Exception e)
+		catch (Throwable ex)
 		{
-			throw new ProcessingException(e, this);
+			throw new ProcessingException(ex);
 		}
 	}
 }

@@ -13,10 +13,10 @@ permissions:
   bmp.cmd.give:
     description: Allows the giving of packages
     default: false
-  bmp.cmd.package.list:
+  bmp.cmd.list:
     description: Allows the listing of available packages
     default: true
-  bmp.cmd.package.info:
+  bmp.cmd.info:
     description: Allows the viewing of package info
     default: true
   bmp.cmd.reload:

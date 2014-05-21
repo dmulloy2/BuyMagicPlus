@@ -13,17 +13,16 @@ import org.bukkit.inventory.ItemStack;
  * @author dmulloy2
  */
 
-public class CmdPackageInfo extends BuyMagicPlusCommand
+public class CmdInfo extends BuyMagicPlusCommand
 {
-
-	public CmdPackageInfo(BuyMagicPlus plugin)
+	public CmdInfo(BuyMagicPlus plugin)
 	{
 		super(plugin);
-		this.name = "packageinfo";
-		this.aliases.add("package");
+		this.name = "info";
+		this.aliases.add("packageinfo");
 		this.requiredArgs.add("package");
 		this.description = "Shows information on a specific package";
-		this.permission = Permission.PACKAGE_INFO;
+		this.permission = Permission.INFO;
 
 		this.usesPrefix = true;
 	}

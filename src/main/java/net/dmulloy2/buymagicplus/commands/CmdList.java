@@ -11,19 +11,19 @@ import net.dmulloy2.buymagicplus.util.FormatUtil;
  * @author dmulloy2
  */
 
-public class CmdPackageList extends PaginatedCommand
+public class CmdList extends PaginatedCommand
 {
-	public CmdPackageList(BuyMagicPlus plugin)
+	public CmdList(BuyMagicPlus plugin)
 	{
 		super(plugin);
-		this.name = "packagelist";
-		this.aliases.add("packages");
+		this.name = "list";
+		this.aliases.add("packagelist");
 		this.optionalArgs.add("page");
 		this.description = "Shows available packages";
-		this.linesPerPage = 6;
-		this.permission = Permission.PACKAGE_LIST;
-		
+		this.permission = Permission.LIST;
+
 		this.usesPrefix = true;
+		this.linesPerPage = 6;
 	}
 
 	@Override

@@ -1,36 +1,32 @@
 package net.dmulloy2.buymagicplus.types;
 
+import lombok.Getter;
+
 /**
  * @author dmulloy2
  */
 
+@Getter
 public enum Permission
 {
 	GIVE,
-
-	PACKAGE_LIST,
-	PACKAGE_INFO,
-
+	INFO,
+	LIST,
 	RELOAD,
 	VERSION,
 	;
 
 	private String node;
-
-	Permission(boolean command)
+	private Permission(boolean command)
 	{
 		this.node = toString().toLowerCase().replaceAll("_", ".");
 		
-		if (command) node = "cmd." + node;
+		if (command) 
+			node = "cmd." + node;
 	}
 
-	Permission()
+	private Permission()
 	{
 		this(true);
-	}
-	
-	public String getNode()
-	{
-		return node;
 	}
 }
