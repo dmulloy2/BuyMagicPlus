@@ -3,8 +3,8 @@ package net.dmulloy2.buymagicplus.commands;
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Package;
 import net.dmulloy2.buymagicplus.types.Permission;
-import net.dmulloy2.buymagicplus.util.FormatUtil;
-import net.dmulloy2.buymagicplus.util.ItemUtil;
+import net.dmulloy2.util.FormatUtil;
+import net.dmulloy2.util.ItemUtil;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +23,6 @@ public class CmdInfo extends BuyMagicPlusCommand
 		this.requiredArgs.add("package");
 		this.description = "Shows information on a specific package";
 		this.permission = Permission.INFO;
-
 		this.usesPrefix = true;
 	}
 

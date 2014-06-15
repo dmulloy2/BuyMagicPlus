@@ -16,7 +16,6 @@ public class CmdVersion extends BuyMagicPlusCommand
 		this.aliases.add("v");
 		this.description = "Display BuyMagicPlus version";
 		this.permission = Permission.VERSION;
-
 		this.usesPrefix = true;
 	}
 

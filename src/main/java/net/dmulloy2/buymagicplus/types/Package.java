@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.dmulloy2.buymagicplus.util.InventoryUtil;
+import net.dmulloy2.util.InventoryUtil;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

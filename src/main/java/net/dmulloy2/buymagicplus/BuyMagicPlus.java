@@ -21,39 +21,36 @@ import java.util.MissingResourceException;
 import java.util.logging.Level;
 
 import lombok.Getter;
+import net.dmulloy2.SwornPlugin;
 import net.dmulloy2.buymagicplus.commands.CmdGive;
-import net.dmulloy2.buymagicplus.commands.CmdHelp;
 import net.dmulloy2.buymagicplus.commands.CmdInfo;
 import net.dmulloy2.buymagicplus.commands.CmdList;
 import net.dmulloy2.buymagicplus.commands.CmdReload;
 import net.dmulloy2.buymagicplus.commands.CmdVersion;
-import net.dmulloy2.buymagicplus.handlers.CommandHandler;
-import net.dmulloy2.buymagicplus.handlers.LogHandler;
 import net.dmulloy2.buymagicplus.handlers.PackageHandler;
-import net.dmulloy2.buymagicplus.handlers.PermissionHandler;
-import net.dmulloy2.buymagicplus.handlers.ResourceHandler;
 import net.dmulloy2.buymagicplus.listeners.PlayerListener;
-import net.dmulloy2.buymagicplus.types.Reloadable;
-import net.dmulloy2.buymagicplus.util.FormatUtil;
+import net.dmulloy2.commands.CmdHelp;
+import net.dmulloy2.handlers.CommandHandler;
+import net.dmulloy2.handlers.LogHandler;
+import net.dmulloy2.handlers.PermissionHandler;
+import net.dmulloy2.handlers.ResourceHandler;
+import net.dmulloy2.types.Reloadable;
+import net.dmulloy2.util.FormatUtil;
 
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * @author dmulloy2
  */
 
-public class BuyMagicPlus extends JavaPlugin implements Reloadable
+public class BuyMagicPlus extends SwornPlugin implements Reloadable
 {
 	/** Handlers **/
-	private @Getter PermissionHandler permissionHandler;
 	private @Getter ResourceHandler resourceHandler;
 	private @Getter PackageHandler packageHandler;
-	private @Getter CommandHandler commandHandler;
-	private @Getter LogHandler logHandler;
 
-	/** Global Prefix Variable **/
-	private @Getter String prefix = FormatUtil.format("&6[&4&lBMP&6] ");
+	/** Global Prefix **/
+	private @Getter String prefix = FormatUtil.format("&3[&eBuyMagic&3]&e ");
 
 	@Override
 	public void onEnable()
@@ -72,7 +69,7 @@ public class BuyMagicPlus extends JavaPlugin implements Reloadable
 		logHandler = new LogHandler(this);
 		commandHandler = new CommandHandler(this);
 		packageHandler = new PackageHandler(this);
-		permissionHandler = new PermissionHandler();
+		permissionHandler = new PermissionHandler("bmp");
 
 		/** Register Commands **/
 		commandHandler.setCommandPrefix("bmp");

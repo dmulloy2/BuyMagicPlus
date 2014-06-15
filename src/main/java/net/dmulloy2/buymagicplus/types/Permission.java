@@ -1,5 +1,6 @@
 package net.dmulloy2.buymagicplus.types;
 
+import net.dmulloy2.types.IPermission;
 import lombok.Getter;
 
 /**
@@ -7,7 +8,7 @@ import lombok.Getter;
  */
 
 @Getter
-public enum Permission
+public enum Permission implements IPermission
 {
 	GIVE,
 	INFO,
@@ -17,16 +18,8 @@ public enum Permission
 	;
 
 	private String node;
-	private Permission(boolean command)
-	{
-		this.node = toString().toLowerCase().replaceAll("_", ".");
-		
-		if (command) 
-			node = "cmd." + node;
-	}
-
 	private Permission()
 	{
-		this(true);
+		this.node = "cmd." +toString().toLowerCase().replaceAll("_", ".");
 	}
 }

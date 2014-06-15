@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Permission;
-import net.dmulloy2.buymagicplus.util.FormatUtil;
+import net.dmulloy2.util.FormatUtil;
 
 /**
  * @author dmulloy2
@@ -21,7 +21,6 @@ public class CmdList extends PaginatedCommand
 		this.optionalArgs.add("page");
 		this.description = "Shows available packages";
 		this.permission = Permission.LIST;
-
 		this.usesPrefix = true;
 		this.linesPerPage = 6;
 	}
@@ -37,7 +36,6 @@ public class CmdList extends PaginatedCommand
 	{
 		return FormatUtil.format(plugin.getMessage("packages_header"), index, getPageCount());
 	}
-
 
 	@Override
 	public String getFooter()

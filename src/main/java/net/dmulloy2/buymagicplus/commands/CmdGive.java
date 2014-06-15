@@ -3,7 +3,7 @@ package net.dmulloy2.buymagicplus.commands;
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Package;
 import net.dmulloy2.buymagicplus.types.Permission;
-import net.dmulloy2.buymagicplus.util.Util;
+import net.dmulloy2.util.Util;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -22,7 +22,6 @@ public class CmdGive extends BuyMagicPlusCommand
 		this.requiredArgs.add("package");
 		this.description = "Give a player a package";
 		this.permission = Permission.GIVE;
-
 		this.usesPrefix = true;
 	}
 

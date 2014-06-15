@@ -12,10 +12,10 @@ import lombok.Getter;
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Package;
 import net.dmulloy2.buymagicplus.types.ProcessingException;
-import net.dmulloy2.buymagicplus.types.Reloadable;
-import net.dmulloy2.buymagicplus.util.FormatUtil;
-import net.dmulloy2.buymagicplus.util.ItemUtil;
-import net.dmulloy2.buymagicplus.util.Util;
+import net.dmulloy2.types.Reloadable;
+import net.dmulloy2.util.FormatUtil;
+import net.dmulloy2.util.ItemUtil;
+import net.dmulloy2.util.Util;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -27,8 +27,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class PackageHandler implements Reloadable
 {
-	private @Getter HashMap<String, List<String>> cached;
-	private @Getter HashMap<String, Package> packages;
+	private @Getter Map<String, List<String>> cached;
+	private @Getter Map<String, Package> packages;
 
 	private final BuyMagicPlus plugin;
 	public PackageHandler(BuyMagicPlus plugin)
@@ -42,7 +42,7 @@ public class PackageHandler implements Reloadable
 		this.loadCache();
 	}
 
-	// ---- General Package Stuff ---- //
+	// ---- General Package Stuff
 
 	/**
 	 * Loads all packages
