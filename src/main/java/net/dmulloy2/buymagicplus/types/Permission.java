@@ -1,7 +1,7 @@
 package net.dmulloy2.buymagicplus.types;
 
-import net.dmulloy2.types.IPermission;
 import lombok.Getter;
+import net.dmulloy2.types.IPermission;
 
 /**
  * @author dmulloy2
@@ -17,7 +17,7 @@ public enum Permission implements IPermission
 	VERSION,
 	;
 
-	private String node;
+	private final String node;
 	private Permission()
 	{
 		this.node = "cmd." +toString().toLowerCase().replaceAll("_", ".");
