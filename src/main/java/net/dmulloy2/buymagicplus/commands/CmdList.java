@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Permission;
+import net.dmulloy2.commands.PaginatedCommand;
 import net.dmulloy2.util.FormatUtil;
 
 /**
@@ -13,9 +14,11 @@ import net.dmulloy2.util.FormatUtil;
 
 public class CmdList extends PaginatedCommand
 {
+	private final BuyMagicPlus plugin;
 	public CmdList(BuyMagicPlus plugin)
 	{
 		super(plugin);
+		this.plugin = plugin;
 		this.name = "list";
 		this.aliases.add("packagelist");
 		this.optionalArgs.add("page");

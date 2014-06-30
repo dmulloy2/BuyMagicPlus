@@ -3,6 +3,7 @@ package net.dmulloy2.buymagicplus.commands;
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Package;
 import net.dmulloy2.buymagicplus.types.Permission;
+import net.dmulloy2.buymagicplus.types.ProcessingException;
 import net.dmulloy2.util.Util;
 
 import org.bukkit.OfflinePlayer;
@@ -53,7 +54,17 @@ public class CmdGive extends BuyMagicPlusCommand
 			return;
 		}
 
+		Player target = offlineTarget.getPlayer();
+
 		// Process
-		plugin.getPackageHandler().process((Player) offlineTarget, pack, true);
+
+		try
+		{
+			plugin.getPackageHandler().process(target, pack, true);
+		}
+		catch (ProcessingException ex)
+		{
+			err(target, "Failed to process package &c{0}&4: &c{1}", pack.getName(), ex);
+		}
 	}
 }

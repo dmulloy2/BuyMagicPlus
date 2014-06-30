@@ -35,8 +35,8 @@ public class PackageHandler implements Reloadable
 	{
 		this.plugin = plugin;
 
-		this.cached = new HashMap<String, List<String>>();
-		this.packages = new HashMap<String, Package>();
+		this.cached = new HashMap<>();
+		this.packages = new HashMap<>();
 
 		this.load();
 		this.loadCache();
@@ -78,9 +78,9 @@ public class PackageHandler implements Reloadable
 				Package pack = new Package(name, items);
 				packages.put(name, pack);
 			}
-			catch (Exception e)
+			catch (Throwable ex)
 			{
-				plugin.getLogHandler().log(Level.SEVERE, Util.getUsefulStack(e, "loading package " + entry.getKey()));
+				plugin.getLogHandler().log(Level.SEVERE, Util.getUsefulStack(ex, "loading package " + entry.getKey()));
 			}
 		}
 
@@ -94,7 +94,6 @@ public class PackageHandler implements Reloadable
 	public final void reload()
 	{
 		packages.clear();
-
 		load();
 	}
 
@@ -127,11 +126,7 @@ public class PackageHandler implements Reloadable
 
 	public final List<String> getPackageKeys()
 	{
-		List<String> ret = new ArrayList<String>();
-
-		ret.addAll(packages.keySet());
-
-		return ret;
+		return new ArrayList<>(packages.keySet());
 	}
 
 	// ---- Package Caching ---- //
@@ -168,9 +163,9 @@ public class PackageHandler implements Reloadable
 				cached.put(playerName, packages);
 			}
 		}
-		catch (Exception e)
+		catch (Throwable ex)
 		{
-			plugin.getLogHandler().log(Level.SEVERE, Util.getUsefulStack(e, "loading cache"));
+			plugin.getLogHandler().log(Level.SEVERE, Util.getUsefulStack(ex, "loading cache"));
 		}
 	}
 
@@ -194,9 +189,9 @@ public class PackageHandler implements Reloadable
 
 			fc.save(file);
 		}
-		catch (Exception e)
+		catch (Throwable ex)
 		{
-			plugin.getLogHandler().log(Level.SEVERE, Util.getUsefulStack(e, "saving cache"));
+			plugin.getLogHandler().log(Level.SEVERE, Util.getUsefulStack(ex, "saving cache"));
 		}
 	}
 
@@ -243,41 +238,36 @@ public class PackageHandler implements Reloadable
 		}
 	}
 
-	// ---- Processing ---- //
+	// ---- Processing
 
 	public final void process(Player player, List<Package> packages)
 	{
 		for (Package pack : packages)
 		{
-			process(player, pack, false);
+			try
+			{
+				process(player, pack, false);
+			}
+			catch (ProcessingException ex)
+			{
+				player.sendMessage(FormatUtil.format("&cError: &4Failed to process package {0}: {1}", pack.getName(), ex));
+			}
 		}
 
 		player.sendMessage(plugin.getPrefix() + FormatUtil.format(plugin.getMessage("thanks")));
 	}
 
-	public final void process(Player player, Package pack, boolean tell)
+	public final void process(Player player, Package pack, boolean thank) throws ProcessingException
 	{
 		plugin.getLogHandler().log(plugin.getMessage("log_package_process"), pack.getName(), player.getName());
 
-		try
-		{
-			pack.perform(player);
-		}
-		catch (ProcessingException e)
-		{
-			if (tell)
-				player.sendMessage(plugin.getPrefix()
-						+ FormatUtil.format("&cCould not process package {0}: {1}", pack.getName(), e.getMessage()));
-
-			plugin.getLogHandler().log(Level.SEVERE, Util.getUsefulStack(e, "processing package " + pack.getName()));
-		}
+		pack.perform(player);
 
 		if (hasCachedPackage(player.getName()))
 		{
 			removeFromCache(player.getName());
 		}
 
-		if (tell)
-			player.sendMessage(plugin.getPrefix() + FormatUtil.format(plugin.getMessage("thanks")));
+		if (thank) player.sendMessage(plugin.getPrefix() + FormatUtil.format(plugin.getMessage("thanks")));
 	}
 }
