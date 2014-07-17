@@ -50,31 +50,34 @@ public class PackageHandler implements Reloadable
 	private final void load()
 	{
 		long start = System.currentTimeMillis();
-
 		plugin.getLogHandler().log(plugin.getMessage("package_loading"));
 
 		Map<String, Object> map = plugin.getConfig().getConfigurationSection("packages").getValues(true);
-
 		for (Entry<String, Object> entry : map.entrySet())
 		{
 			try
 			{
 				String name = entry.getKey();
-	
-				plugin.getLogHandler().debug("Attempting to load package \"{0}\"", name);
-	
-				@SuppressWarnings("unchecked")
+				plugin.getLogHandler().debug("Loading package \"{0}\"", name);
+
+				@SuppressWarnings("unchecked") // No way to check this :I
 				List<String> values = (List<String>) entry.getValue();
-	
-				List<ItemStack> items = new ArrayList<ItemStack>();
-	
+				List<ItemStack> items = new ArrayList<>();
+
 				for (String value : values)
 				{
-					ItemStack item = ItemUtil.readItem(value);
-					if (item != null)
-						items.add(item);
+					try
+					{
+						ItemStack item = ItemUtil.readItem(value);
+						if (item != null)
+							items.add(item);
+					}
+					catch (Throwable ex)
+					{
+						plugin.getLogHandler().log(Level.WARNING, Util.getUsefulStack(ex, "parsing item \"" + value + "\""));
+					}
 				}
-	
+
 				Package pack = new Package(name, items);
 				packages.put(name, pack);
 			}
@@ -99,7 +102,7 @@ public class PackageHandler implements Reloadable
 
 	/**
 	 * Returns the package associated with the given key
-	 * 
+	 *
 	 * @param key
 	 *        - Package name
 	 */
@@ -115,7 +118,7 @@ public class PackageHandler implements Reloadable
 
 	/**
 	 * Returns whether or not a package with this name exists
-	 * 
+	 *
 	 * @param key
 	 *        - Package name to check
 	 */
