@@ -2,6 +2,7 @@ package net.dmulloy2.buymagicplus.listeners;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Package;
 
@@ -16,13 +17,10 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @author dmulloy2
  */
 
+@AllArgsConstructor
 public class PlayerListener implements Listener
 {
 	private final BuyMagicPlus plugin;
-	public PlayerListener(BuyMagicPlus plugin)
-	{
-		this.plugin = plugin;
-	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerJoinEvent event)

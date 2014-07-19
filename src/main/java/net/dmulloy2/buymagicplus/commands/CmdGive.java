@@ -50,7 +50,7 @@ public class CmdGive extends BuyMagicPlusCommand
 		if (! offlineTarget.isOnline())
 		{
 			plugin.getLogHandler().log(getMessage("give_cache"), offlineTarget.getName());
-			plugin.getPackageHandler().cache(offlineTarget.getName(), args[1]);
+			plugin.getPackageHandler().cache(offlineTarget.getUniqueId(), args[1]);
 			return;
 		}
 

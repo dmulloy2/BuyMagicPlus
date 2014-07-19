@@ -1,17 +1,17 @@
 /**
- * BuyMagicPlus - a bukkit plugin 
+ * BuyMagicPlus - a bukkit plugin
  * Copyright (C) 2013 - 2014 dmulloy2
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -101,21 +101,21 @@ public class BuyMagicPlus extends SwornPlugin implements Reloadable
 		logHandler.log(getMessage("log_disabled"), getDescription().getFullName(), System.currentTimeMillis() - start);
 	}
 
-    /**
-     * Gets a message from the messages.properties
-     * 
-     * @param string - Message key
-     */
-	public final String getMessage(String string) 
+	/**
+	 * Gets a message from the messages.properties.
+	 *
+	 * @param string Message key
+	 */
+	public final String getMessage(String string)
 	{
 		try
 		{
 			return resourceHandler.getMessages().getString(string);
-		} 
-		catch (MissingResourceException ex) 
+		}
+		catch (MissingResourceException ex)
 		{
-			logHandler.log(Level.WARNING, getMessage("log_message_missing"),  string);
-			return null;
+			logHandler.log(Level.WARNING, getMessage("log_message_missing"), string);
+			return FormatUtil.format("<Missing Message: {0}>", string);
 		}
 	}
 

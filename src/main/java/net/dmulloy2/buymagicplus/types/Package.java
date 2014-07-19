@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * Represents a buyable BuyMagicPlus package
- * 
+ *
  * @author dmulloy2
  */
 
@@ -30,12 +30,12 @@ public class Package
 		{
 			if (items.isEmpty())
 			{
-				throw new Exception("Empty Package");
+				throw new ProcessingException("Empty Package");
 			}
-		
-			// Attempt to add the items	
+
+			// Attempt to add the items
 			Map<Integer, ItemStack> leftover = InventoryUtil.giveItems(player, items.toArray(new ItemStack[0]));
-	
+
 			// Drop items that don't fit
 			for (Entry<Integer, ItemStack> leftoverItem : leftover.entrySet())
 			{
@@ -44,7 +44,7 @@ public class Package
 		}
 		catch (Throwable ex)
 		{
-			throw new ProcessingException(ex);
+			throw ProcessingException.fromThrowable(ex);
 		}
 	}
 }

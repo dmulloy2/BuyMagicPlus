@@ -35,7 +35,7 @@ public class CmdList extends PaginatedCommand
 	}
 
 	@Override
-	public String getHeader(int index) 
+	public String getHeader(int index)
 	{
 		return FormatUtil.format(plugin.getMessage("packages_header"), index, getPageCount());
 	}
@@ -47,10 +47,11 @@ public class CmdList extends PaginatedCommand
 	}
 
 	@Override
-	public List<String> getLines(int startIndex, int endIndex) 
+	public List<String> getLines(int startIndex, int endIndex)
 	{
 		List<String> lines = new ArrayList<String>();
-		for (int i = startIndex; i < endIndex && i < getListSize(); i++) 
+
+		for (int i = startIndex; i < endIndex && i < getListSize(); i++)
 		{
 			lines.add("&b - &e" + plugin.getPackageHandler().getPackageKeys().get(i));
 		}
@@ -59,7 +60,7 @@ public class CmdList extends PaginatedCommand
 	}
 
 	@Override
-	public String getLine(int index) 
+	public String getLine(int index)
 	{
 		return null;
 	}

@@ -10,7 +10,6 @@ import net.dmulloy2.commands.Command;
 public abstract class BuyMagicPlusCommand extends Command
 {
 	protected final BuyMagicPlus plugin;
-
 	public BuyMagicPlusCommand(BuyMagicPlus plugin)
 	{
 		super(plugin);

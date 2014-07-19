@@ -6,12 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import lombok.Getter;
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Package;
 import net.dmulloy2.buymagicplus.types.ProcessingException;
+import net.dmulloy2.io.UUIDFetcher;
 import net.dmulloy2.types.Reloadable;
 import net.dmulloy2.util.FormatUtil;
 import net.dmulloy2.util.ItemUtil;
@@ -27,7 +29,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class PackageHandler implements Reloadable
 {
-	private @Getter Map<String, List<String>> cached;
+	private @Getter Map<UUID, List<String>> cached;
 	private @Getter Map<String, Package> packages;
 
 	private final BuyMagicPlus plugin;
@@ -44,9 +46,6 @@ public class PackageHandler implements Reloadable
 
 	// ---- General Package Stuff
 
-	/**
-	 * Loads all packages
-	 */
 	private final void load()
 	{
 		long start = System.currentTimeMillis();
@@ -103,8 +102,7 @@ public class PackageHandler implements Reloadable
 	/**
 	 * Returns the package associated with the given key
 	 *
-	 * @param key
-	 *        - Package name
+	 * @param key Package name
 	 */
 	public final Package getPackage(String key)
 	{
@@ -119,51 +117,53 @@ public class PackageHandler implements Reloadable
 	/**
 	 * Returns whether or not a package with this name exists
 	 *
-	 * @param key
-	 *        - Package name to check
+	 * @param key Package name to check
 	 */
 	public final boolean isValidPackage(String key)
 	{
 		return packages.containsKey(key.toLowerCase());
 	}
 
+	/**
+	 * @return All of the loaded packages' names.
+	 */
 	public final List<String> getPackageKeys()
 	{
 		return new ArrayList<>(packages.keySet());
 	}
 
-	// ---- Package Caching ---- //
+	// ---- Cache
 
 	private final void loadCache()
 	{
 		try
 		{
 			File file = new File(plugin.getDataFolder(), "cache.yml");
-			if (!file.exists())
+			if (! file.exists())
 			{
 				file.createNewFile();
 			}
 
 			YamlConfiguration fc = YamlConfiguration.loadConfiguration(file);
-			for (Entry<String, Object> value : fc.getValues(true).entrySet())
+			for (Entry<String, Object> entry : fc.getValues(true).entrySet())
 			{
-				String playerName = value.getKey().toLowerCase();
-				List<String> packages = new ArrayList<String>();
+				UUID uuid = UUIDFetcher.getUUID(entry.getKey());
+				List<String> packages = new ArrayList<>();
 
-				@SuppressWarnings("unchecked")
-				List<String> values = (List<String>) value.getValue();
+				@SuppressWarnings("unchecked") // No way to check this :I
+				List<String> values = (List<String>) entry.getValue();
 				for (String val : values)
 				{
-					if (!isValidPackage(val))
+					if (! isValidPackage(val))
 					{
-						plugin.getLogHandler().log(Level.WARNING, plugin.getMessage("cache_missing_package"), playerName, val);
+						plugin.getLogHandler().log(Level.WARNING, plugin.getMessage("cache_missing_package"), val);
 						continue;
 					}
 
 					packages.add(val);
 				}
 
-				cached.put(playerName, packages);
+				cached.put(uuid, packages);
 			}
 		}
 		catch (Throwable ex)
@@ -172,6 +172,9 @@ public class PackageHandler implements Reloadable
 		}
 	}
 
+	/**
+	 * Saves the cache to disk.
+	 */
 	public final void saveCache()
 	{
 		try
@@ -185,9 +188,9 @@ public class PackageHandler implements Reloadable
 			file.createNewFile();
 
 			YamlConfiguration fc = YamlConfiguration.loadConfiguration(file);
-			for (Entry<String, List<String>> entry : cached.entrySet())
+			for (Entry<UUID, List<String>> entry : cached.entrySet())
 			{
-				fc.set(entry.getKey(), entry.getValue());
+				fc.set(entry.getKey().toString(), entry.getValue());
 			}
 
 			fc.save(file);
@@ -198,15 +201,22 @@ public class PackageHandler implements Reloadable
 		}
 	}
 
-	public final void cache(String key, String pack)
+	@Deprecated
+	public final void cache(String key, String pack) throws Exception
 	{
-		if (cached.containsKey(key.toLowerCase()))
+		UUID uuid = UUIDFetcher.getUUID(key);
+		cache(uuid, pack);
+	}
+
+	public final void cache(UUID uuid, String pack)
+	{
+		if (cached.containsKey(uuid))
 		{
-			cached.get(key.toLowerCase()).add(pack);
+			cached.get(uuid).add(pack);
 		}
 		else
 		{
-			cached.put(key.toLowerCase(), Util.toList(pack));
+			cached.put(uuid, Util.toList(pack));
 		}
 	}
 

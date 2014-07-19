@@ -3,7 +3,7 @@ package net.dmulloy2.buymagicplus.types;
 /**
  * Represents an {@link Exception} thrown when execution of a {@link Package}
  * fails
- * 
+ *
  * @author dmulloy2
  */
 
@@ -29,5 +29,13 @@ public class ProcessingException extends Exception
 	public ProcessingException(String message)
 	{
 		super(message);
+	}
+
+	public static ProcessingException fromThrowable(Throwable ex)
+	{
+		if (ex instanceof ProcessingException)
+			return (ProcessingException) ex;
+
+		return new ProcessingException(ex);
 	}
 }

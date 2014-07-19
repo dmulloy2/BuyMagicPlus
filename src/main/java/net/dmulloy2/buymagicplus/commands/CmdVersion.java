@@ -2,6 +2,7 @@ package net.dmulloy2.buymagicplus.commands;
 
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Permission;
+import net.dmulloy2.types.StringJoiner;
 
 /**
  * @author dmulloy2
@@ -23,24 +24,11 @@ public class CmdVersion extends BuyMagicPlusCommand
 	public void perform()
 	{
 		sendMessage(getMessage("version_header"));
-		
-		StringBuilder line = new StringBuilder();
-		line.append(getMessage("version_author") + " ");
 
-		for (String author : plugin.getDescription().getAuthors())
-		{
-			line.append("&e" + author + ", ");
-		}
-		
-		if (line.lastIndexOf(",") >= 0)
-		{
-			line.deleteCharAt(line.lastIndexOf(","));
-		}
+		StringJoiner authors = new StringJoiner("&b, &e");
+		authors.appendAll(plugin.getDescription().getAuthors());
+		sendMessage(getMessage("version_author"), authors.toString());
 
-		sendMessage(line.toString());
-		
 		sendMessage(getMessage("version_loaded"), plugin.getDescription().getFullName());
-//		sendMessage(getMessage("version_update"), plugin.updateNeeded() ? "true" : "false");
-//		sendMessage(getMessage("version_download"));
 	}
 }

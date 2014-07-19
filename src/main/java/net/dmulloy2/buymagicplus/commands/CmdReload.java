@@ -19,7 +19,7 @@ public class CmdReload extends BuyMagicPlusCommand implements Reloadable
 		this.permission = Permission.RELOAD;
 		this.usesPrefix = true;
 	}
-	
+
 	@Override
 	public void perform()
 	{
@@ -30,11 +30,11 @@ public class CmdReload extends BuyMagicPlusCommand implements Reloadable
 	public void reload()
 	{
 		long start = System.currentTimeMillis();
-		
+
 		sendpMessage(getMessage("reload_start"));
-		
+
 		plugin.reload();
-		
+
 		sendpMessage(getMessage("reload_finish"), System.currentTimeMillis() - start);
 	}
 }

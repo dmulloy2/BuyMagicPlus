@@ -20,6 +20,6 @@ public enum Permission implements IPermission
 	private final String node;
 	private Permission()
 	{
-		this.node = "cmd." +toString().toLowerCase().replaceAll("_", ".");
+		this.node = "cmd." + toString().toLowerCase().replaceAll("_", ".");
 	}
 }
