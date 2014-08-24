@@ -17,8 +17,7 @@
  */
 package net.dmulloy2.buymagicplus;
 
-import java.util.MissingResourceException;
-import java.util.logging.Level;
+import java.io.File;
 
 import lombok.Getter;
 import net.dmulloy2.SwornPlugin;
@@ -45,11 +44,11 @@ import org.bukkit.plugin.PluginManager;
 
 public class BuyMagicPlus extends SwornPlugin implements Reloadable
 {
-	/** Handlers **/
+	// Handlers
 	private @Getter ResourceHandler resourceHandler;
 	private @Getter PackageHandler packageHandler;
 
-	/** Global Prefix **/
+	// Global prefix
 	private @Getter String prefix = FormatUtil.format("&3[&eBuyMagic&3]&e ");
 
 	@Override
@@ -57,21 +56,26 @@ public class BuyMagicPlus extends SwornPlugin implements Reloadable
 	{
 		long start = System.currentTimeMillis();
 
-		/** Configuration **/
+		// Register log handler first
+		logHandler = new LogHandler(this);
+
+		// Configuration
 		saveDefaultConfig();
 		reloadConfig();
 
-		/** Resource Handler / Messages **/
-		saveResource("messages.properties", true);
+		// Messages
+		File messages = new File(getDataFolder(), "messages.properties");
+		if (messages.exists())
+			messages.delete();
+
 		resourceHandler = new ResourceHandler(this, getClassLoader());
 
-		/** Register Handlers **/
-		logHandler = new LogHandler(this);
+		// Register other handlers
+		permissionHandler = new PermissionHandler("bmp");
 		commandHandler = new CommandHandler(this);
 		packageHandler = new PackageHandler(this);
-		permissionHandler = new PermissionHandler("bmp");
 
-		/** Register Commands **/
+		// Register commands
 		commandHandler.setCommandPrefix("bmp");
 		commandHandler.registerPrefixedCommand(new CmdGive(this));
 		commandHandler.registerPrefixedCommand(new CmdHelp(this));
@@ -80,7 +84,7 @@ public class BuyMagicPlus extends SwornPlugin implements Reloadable
 		commandHandler.registerPrefixedCommand(new CmdReload(this));
 		commandHandler.registerPrefixedCommand(new CmdVersion(this));
 
-		/** Register Events **/
+		// Register events
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PlayerListener(this), this);
 
@@ -92,10 +96,10 @@ public class BuyMagicPlus extends SwornPlugin implements Reloadable
 	{
 		long start = System.currentTimeMillis();
 
-		/** Cancel Tasks **/
+		// Cancel tasks
 		getServer().getScheduler().cancelTasks(this);
 
-		/** Save Cache **/
+		// Save the cache
 		packageHandler.saveCache();
 
 		logHandler.log(getMessage("log_disabled"), getDescription().getFullName(), System.currentTimeMillis() - start);
@@ -104,19 +108,11 @@ public class BuyMagicPlus extends SwornPlugin implements Reloadable
 	/**
 	 * Gets a message from the messages.properties.
 	 *
-	 * @param string Message key
+	 * @param key Message key
 	 */
-	public final String getMessage(String string)
+	public final String getMessage(String key)
 	{
-		try
-		{
-			return resourceHandler.getMessages().getString(string);
-		}
-		catch (MissingResourceException ex)
-		{
-			logHandler.log(Level.WARNING, getMessage("log_message_missing"), string);
-			return FormatUtil.format("<Missing Message: {0}>", string);
-		}
+		return resourceHandler.getMessage(key);
 	}
 
 	@Override
