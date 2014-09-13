@@ -15,8 +15,10 @@ import net.dmulloy2.buymagicplus.types.Package;
 import net.dmulloy2.buymagicplus.types.ProcessingException;
 import net.dmulloy2.io.UUIDFetcher;
 import net.dmulloy2.types.Reloadable;
+import net.dmulloy2.types.Transformation;
 import net.dmulloy2.util.FormatUtil;
 import net.dmulloy2.util.ItemUtil;
+import net.dmulloy2.util.ListUtil;
 import net.dmulloy2.util.Util;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -61,21 +63,22 @@ public class PackageHandler implements Reloadable
 
 				@SuppressWarnings("unchecked") // No way to check this :I
 				List<String> values = (List<String>) entry.getValue();
-				List<ItemStack> items = new ArrayList<>();
-
-				for (String value : values)
+				List<ItemStack> items = ListUtil.transform(values, new Transformation<String, ItemStack>()
 				{
-					try
+					@Override
+					public ItemStack transform(String string)
 					{
-						ItemStack item = ItemUtil.readItem(value);
-						if (item != null)
-							items.add(item);
+						try
+						{
+							return ItemUtil.readItem(string);
+						}
+						catch (Throwable ex)
+						{
+							plugin.getLogHandler().log(Level.WARNING, Util.getUsefulStack(ex, "parsing item \"" + string + "\""));
+							return null;
+						}
 					}
-					catch (Throwable ex)
-					{
-						plugin.getLogHandler().log(Level.WARNING, Util.getUsefulStack(ex, "parsing item \"" + value + "\""));
-					}
-				}
+				});
 
 				Package pack = new Package(name, items);
 				packages.put(name, pack);
@@ -216,7 +219,7 @@ public class PackageHandler implements Reloadable
 		}
 		else
 		{
-			cached.put(uuid, Util.toList(pack));
+			cached.put(uuid, ListUtil.toList(pack));
 		}
 	}
 
