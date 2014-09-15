@@ -21,7 +21,7 @@ public class CmdList extends PaginatedCommand
 		this.plugin = plugin;
 		this.name = "list";
 		this.aliases.add("packagelist");
-		this.optionalArgs.add("page");
+		this.addOptionalArg("page");
 		this.description = "Shows available packages";
 		this.permission = Permission.LIST;
 		this.usesPrefix = true;

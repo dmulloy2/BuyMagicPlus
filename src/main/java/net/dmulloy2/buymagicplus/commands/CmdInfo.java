@@ -20,7 +20,7 @@ public class CmdInfo extends BuyMagicPlusCommand
 		super(plugin);
 		this.name = "info";
 		this.aliases.add("packageinfo");
-		this.requiredArgs.add("package");
+		this.addRequiredArg("package");
 		this.description = "Shows information on a specific package";
 		this.permission = Permission.INFO;
 		this.usesPrefix = true;

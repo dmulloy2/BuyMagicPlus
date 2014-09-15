@@ -19,8 +19,8 @@ public class CmdGive extends BuyMagicPlusCommand
 	{
 		super(plugin);
 		this.name = "give";
-		this.requiredArgs.add("player");
-		this.requiredArgs.add("package");
+		this.addRequiredArg("player");
+		this.addRequiredArg("package");
 		this.description = "Give a player a package";
 		this.permission = Permission.GIVE;
 		this.usesPrefix = true;
