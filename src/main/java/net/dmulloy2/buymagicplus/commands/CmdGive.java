@@ -1,9 +1,14 @@
 package net.dmulloy2.buymagicplus.commands;
 
+import java.util.UUID;
+
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Package;
 import net.dmulloy2.buymagicplus.types.Permission;
 import net.dmulloy2.buymagicplus.types.ProcessingException;
+import net.dmulloy2.io.UUIDFetcher;
+import net.dmulloy2.types.Versioning;
+import net.dmulloy2.types.Versioning.Version;
 import net.dmulloy2.util.Util;
 
 import org.bukkit.OfflinePlayer;
@@ -50,7 +55,7 @@ public class CmdGive extends BuyMagicPlusCommand
 		if (! offlineTarget.isOnline())
 		{
 			plugin.getLogHandler().log(getMessage("give_cache"), offlineTarget.getName());
-			plugin.getPackageHandler().cache(Util.getUniqueId(offlineTarget), args[1]);
+			plugin.getPackageHandler().cache(getUniqueId(offlineTarget), args[1]);
 			return;
 		}
 
@@ -66,5 +71,16 @@ public class CmdGive extends BuyMagicPlusCommand
 		{
 			err(target, "Failed to process package &c{0}&4: &c{1}", pack.getName(), ex);
 		}
+	}
+
+	public static UUID getUniqueId(OfflinePlayer player)
+	{
+		try
+		{
+			// Lookup the UUID
+			if (Versioning.getVersion() == Version.MC_16)
+				return UUIDFetcher.getUUID(player.getName());
+		} catch (Throwable ex) { }
+		return player.getUniqueId();
 	}
 }
