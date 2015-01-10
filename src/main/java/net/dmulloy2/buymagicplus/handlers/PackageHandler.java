@@ -129,12 +129,12 @@ public class PackageHandler implements Reloadable
 		{
 			File file = new File(plugin.getDataFolder(), "cache.yml");
 			if (! file.exists())
-			{
 				file.createNewFile();
-			}
 
-			YamlConfiguration fc = YamlConfiguration.loadConfiguration(file);
-			for (Entry<String, Object> entry : fc.getValues(true).entrySet())
+			YamlConfiguration config = new YamlConfiguration();
+			config.load(file);
+
+			for (Entry<String, Object> entry : config.getValues(true).entrySet())
 			{
 				UUID uuid = UUIDFetcher.getUUID(entry.getKey());
 				List<String> packages = new ArrayList<>();
@@ -170,19 +170,19 @@ public class PackageHandler implements Reloadable
 		{
 			File file = new File(plugin.getDataFolder(), "cache.yml");
 			if (file.exists())
-			{
 				file.delete();
-			}
 
 			file.createNewFile();
 
-			YamlConfiguration fc = YamlConfiguration.loadConfiguration(file);
+			YamlConfiguration config = new YamlConfiguration();
+			config.load(file);
+
 			for (Entry<UUID, List<String>> entry : cached.entrySet())
 			{
-				fc.set(entry.getKey().toString(), entry.getValue());
+				config.set(entry.getKey().toString(), entry.getValue());
 			}
 
-			fc.save(file);
+			config.save(file);
 		}
 		catch (Throwable ex)
 		{
