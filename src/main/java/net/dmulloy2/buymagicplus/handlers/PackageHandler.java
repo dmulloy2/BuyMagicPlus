@@ -14,9 +14,9 @@ import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Package;
 import net.dmulloy2.buymagicplus.types.ProcessingException;
 import net.dmulloy2.io.UUIDFetcher;
-import net.dmulloy2.types.ItemParser;
 import net.dmulloy2.types.Reloadable;
 import net.dmulloy2.util.FormatUtil;
+import net.dmulloy2.util.ItemUtil;
 import net.dmulloy2.util.ListUtil;
 import net.dmulloy2.util.Util;
 
@@ -52,8 +52,6 @@ public class PackageHandler implements Reloadable
 		long start = System.currentTimeMillis();
 		plugin.getLogHandler().log(plugin.getMessage("package_loading"));
 
-		ItemParser parser = new ItemParser(plugin);
-
 		Map<String, Object> map = plugin.getConfig().getConfigurationSection("packages").getValues(true);
 		for (Entry<String, Object> entry : map.entrySet())
 		{
@@ -64,7 +62,7 @@ public class PackageHandler implements Reloadable
 
 				@SuppressWarnings("unchecked") // No way to check this :I
 				List<String> values = (List<String>) entry.getValue();
-				List<ItemStack> items = parser.parse(values);
+				List<ItemStack> items = ItemUtil.readItems(values, plugin);
 
 				Package pack = new Package(name, items);
 				packages.put(name, pack);
