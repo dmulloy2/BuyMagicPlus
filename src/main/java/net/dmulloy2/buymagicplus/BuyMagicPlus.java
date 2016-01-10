@@ -33,7 +33,6 @@ import net.dmulloy2.handlers.CommandHandler;
 import net.dmulloy2.handlers.LogHandler;
 import net.dmulloy2.handlers.PermissionHandler;
 import net.dmulloy2.handlers.ResourceHandler;
-import net.dmulloy2.types.Reloadable;
 import net.dmulloy2.util.FormatUtil;
 
 import org.bukkit.plugin.PluginManager;
@@ -42,7 +41,7 @@ import org.bukkit.plugin.PluginManager;
  * @author dmulloy2
  */
 
-public class BuyMagicPlus extends SwornPlugin implements Reloadable
+public class BuyMagicPlus extends SwornPlugin
 {
 	// Handlers
 	private @Getter ResourceHandler resourceHandler;
