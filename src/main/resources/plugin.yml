@@ -1,6 +1,6 @@
 name: BuyMagicPlus
 main: net.dmulloy2.buymagicplus.BuyMagicPlus
-version: ${project.version} (Build ${project.build.number})
+version: ${project.version}${project.build.number}
 author: dmulloy2
 description: Allows the customization of buyable packages with enchanted items, for use with BuyCraft
 softdepend: [BuyCraft]
