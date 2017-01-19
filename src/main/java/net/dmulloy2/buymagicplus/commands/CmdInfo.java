@@ -1,13 +1,13 @@
 package net.dmulloy2.buymagicplus.commands;
 
+import org.apache.commons.lang.WordUtils;
+import org.bukkit.inventory.ItemStack;
+
 import net.dmulloy2.buymagicplus.BuyMagicPlus;
 import net.dmulloy2.buymagicplus.types.Package;
 import net.dmulloy2.buymagicplus.types.Permission;
-import net.dmulloy2.util.FormatUtil;
 import net.dmulloy2.util.ItemUtil;
-
-import org.apache.commons.lang.WordUtils;
-import org.bukkit.inventory.ItemStack;
+import net.dmulloy2.util.MaterialUtil;
 
 /**
  * @author dmulloy2
@@ -40,7 +40,7 @@ public class CmdInfo extends BuyMagicPlusCommand
 
 		for (ItemStack stack : pack.getItems())
 		{
-			sendMessage(getMessage("package_info_item_format"), FormatUtil.getFriendlyName(stack.getType()), stack.getAmount(),
+			sendMessage(getMessage("package_info_item_format"), MaterialUtil.getName(stack), stack.getAmount(),
 					ItemUtil.getEnchantments(stack));
 		}
 	}

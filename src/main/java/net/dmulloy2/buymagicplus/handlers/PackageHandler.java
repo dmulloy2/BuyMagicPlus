@@ -65,7 +65,7 @@ public class PackageHandler implements Reloadable
 				List<ItemStack> items = ItemUtil.readItems(values, plugin);
 
 				Package pack = new Package(name, items);
-				packages.put(name, pack);
+				packages.put(name.toLowerCase(), pack);
 			}
 			catch (Throwable ex)
 			{
@@ -93,12 +93,7 @@ public class PackageHandler implements Reloadable
 	 */
 	public final Package getPackage(String key)
 	{
-		if (packages.containsKey(key.toLowerCase()))
-		{
-			return packages.get(key.toLowerCase());
-		}
-
-		return null;
+		return packages.get(key.toLowerCase());
 	}
 
 	/**
